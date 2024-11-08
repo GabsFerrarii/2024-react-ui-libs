@@ -115,8 +115,12 @@ const Cadastro: React.FC = () => {
                     Cadastrar
                 </Button>
                 </Form.Item>
-                <Link to="../Login">
+                <Link to="../">
                     Já possui uma conta? Entre
+                </Link>
+                <br/>
+                <Link to="../Feed">
+                    Vá para o feed
                 </Link>
             </Form>
         </Flex>
