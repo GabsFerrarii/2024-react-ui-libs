@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Form, Input, Modal, List, DatePicker, Typography, Layout } from 'antd';
+import { Button, Form, Input, Modal, List, DatePicker, Typography, Layout, Popconfirm, message } from 'antd';
+import type { PopconfirmProps } from 'antd';
 import type { Moment } from 'moment';
 import moment from 'moment';
 
@@ -23,6 +24,16 @@ const Feed: React.FC = () => {
     const showModal = () => {
         setIsModalOpen(true);
     };
+
+    const confirm = (id: number) => {
+        excluirTarefa(id);
+        message.success('Tarefa excluída');
+    };
+      
+      const cancel: PopconfirmProps['onCancel'] = (e) => {
+        console.log(e);
+        message.error('Exclusão cancelada');
+      };
 
     const handleOk = () => {
         form.validateFields().then((values) => {
@@ -124,9 +135,19 @@ const Feed: React.FC = () => {
                                     <a key="edit" onClick={() => editarTarefa(tarefa)}>
                                         Editar
                                     </a>,
-                                    <a key="delete" onClick={() => excluirTarefa(tarefa.id)}>
+                                    <Popconfirm
+                                    title="Deletar a tarefa"
+                                    description="Você tem certeza que quer deletar essa tarefa?"
+                                    onConfirm={() => confirm(tarefa.id)}
+                                    // onConfirm={confirm}
+                                    onCancel={cancel}
+                                    okText="Sim"
+                                    cancelText="Não"
+                                  >
+                                    <a key="delete">
                                         Excluir
-                                    </a>,
+                                    </a>
+                                  </Popconfirm>,
                                 ]}
                             >
                                 <List.Item.Meta
